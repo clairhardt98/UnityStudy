@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -14,14 +14,16 @@ public class BarrelCtrl : MonoBehaviour
 
     public Texture[] textures;
     private MeshRenderer _renderer;
-
+    private AudioSource _audio;
     public float expRadius = 10.0f;
+    public AudioClip expSfx;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         meshFilter = GetComponent<MeshFilter>();
         _renderer = GetComponent<MeshRenderer>();
         _renderer.material.mainTexture = textures[Random.Range(0, textures.Length)];
+        _audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -53,6 +55,8 @@ public class BarrelCtrl : MonoBehaviour
 
         int idx = Random.Range(0, meshes.Length);
         meshFilter.sharedMesh = meshes[idx];
+
+        _audio.PlayOneShot(expSfx, 1.0f);
     }
 
     void IndirectDamage(Vector3 pos)
@@ -60,9 +64,10 @@ public class BarrelCtrl : MonoBehaviour
         Collider[] colls = Physics.OverlapSphere(pos, expRadius, 1 << 11);
         foreach (var coll in colls)
         {
-            var _rb = coll.GetComponent<Rigidbody>();
-            _rb.mass = 1.0f;
-            _rb.AddExplosionForce(1200.0f, pos, expRadius, 1000.0f);
+            // var _rb = coll.GetComponent<Rigidbody>();
+            // _rb.mass = 1.0f;
+            // _rb.AddExplosionForce(1200.0f, pos, expRadius, 1000.0f);
+
         }
     }
 }
