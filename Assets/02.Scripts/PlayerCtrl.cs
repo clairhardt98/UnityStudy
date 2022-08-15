@@ -23,7 +23,7 @@ public class PlayerCtrl : MonoBehaviour
     public float rotSpeed = 80.0f;
 
     public PlayerAnim playerAnim;//인스펙터 뷰에 표시할 애니메이션 클래스 변수
-    [HideInInspector]public Animation anim;// 컴포넌트를 저장하기 위한 변수
+    public Animation anim;// 컴포넌트를 저장하기 위한 변수
 
     void Start()
     {
