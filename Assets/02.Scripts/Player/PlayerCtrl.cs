@@ -40,9 +40,6 @@ public class PlayerCtrl : MonoBehaviour
         v = Input.GetAxis("Vertical");
         r = Input.GetAxis("Mouse X");
 
-        Debug.Log("h=" + h.ToString());
-        Debug.Log("v=" + v.ToString());
-
         Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h);
 
         tr.Translate(moveDir.normalized * moveSpeed * Time.deltaTime, Space.Self);
