@@ -26,6 +26,7 @@ public class EnemyAI : MonoBehaviour
     
     private WaitForSeconds ws; 
     private MoveAgent moveAgent;
+    private EnemyFire enemyFire;
 
     private readonly int hashMove = Animator.StringToHash("IsMove");
     private readonly int hashSpeed = Animator.StringToHash("Speed");
@@ -38,6 +39,7 @@ public class EnemyAI : MonoBehaviour
         enemyTr = GetComponent<Transform>();
         moveAgent = GetComponent<MoveAgent>();
         animator = GetComponent<Animator>();
+        enemyFire = GetComponent<EnemyFire>();
         
         ws = new WaitForSeconds(0.3f);
         //코루틴 시간 생성
@@ -81,11 +83,13 @@ public class EnemyAI : MonoBehaviour
             switch (state)
             {
                 case State.PATROL:
+                    enemyFire.isFire = false;
                     moveAgent.patrolling = true;
                     animator.SetBool(hashMove,true);
                     break;
                 
                 case State.TRACE:
+                    enemyFire.isFire = false;
                     moveAgent.traceTarget = playerTr.position;
                     animator.SetBool(hashMove,true);
                     break;
@@ -93,8 +97,11 @@ public class EnemyAI : MonoBehaviour
                 case State.ATTACK:
                     moveAgent.Stop();
                     animator.SetBool(hashMove, false);
+
+                    if (enemyFire.isFire == false)
+                        enemyFire.isFire = true;
                     break;
-                
+
                 case State.DIE:
                     moveAgent.Stop();
                     break;
