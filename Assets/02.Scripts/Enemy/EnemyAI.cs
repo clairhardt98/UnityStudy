@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -30,6 +31,8 @@ public class EnemyAI : MonoBehaviour
 
     private readonly int hashMove = Animator.StringToHash("IsMove");
     private readonly int hashSpeed = Animator.StringToHash("Speed");
+    private readonly int hashDie = Animator.StringToHash("Die");
+    private readonly int hashDieIdx = Animator.StringToHash("DieIdx");
     private void Awake()
     {
         var player = GameObject.FindGameObjectWithTag("PLAYER");
@@ -97,13 +100,19 @@ public class EnemyAI : MonoBehaviour
                 case State.ATTACK:
                     moveAgent.Stop();
                     animator.SetBool(hashMove, false);
-
                     if (enemyFire.isFire == false)
                         enemyFire.isFire = true;
                     break;
 
                 case State.DIE:
+                    isDie = true;
+                    enemyFire.isFire = false;
                     moveAgent.Stop();
+                    animator.SetBool(hashMove, false);
+                    animator.SetInteger(hashDieIdx,Random.Range(0,3));
+                    animator.SetTrigger(hashDie);
+
+                    GetComponent<CapsuleCollider>().enabled = false;
                     break;
             }
         }
