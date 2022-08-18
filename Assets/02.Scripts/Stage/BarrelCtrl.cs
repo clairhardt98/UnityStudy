@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class BarrelCtrl : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class BarrelCtrl : MonoBehaviour
     private AudioSource _audio;
     public float expRadius = 10.0f;
     public AudioClip expSfx;
+
+    public Shake shake;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -24,6 +27,7 @@ public class BarrelCtrl : MonoBehaviour
         _renderer = GetComponent<MeshRenderer>();
         _renderer.material.mainTexture = textures[Random.Range(0, textures.Length)];
         _audio = GetComponent<AudioSource>();
+        shake = GameObject.Find("CameraRig").GetComponent<Shake>();
     }
 
     // Update is called once per frame
@@ -57,6 +61,8 @@ public class BarrelCtrl : MonoBehaviour
         meshFilter.sharedMesh = meshes[idx];
 
         _audio.PlayOneShot(expSfx, 1.0f);
+
+        StartCoroutine(shake.ShakeCamera(0.1f, 0.2f, 0.5f));
     }
 
     void IndirectDamage(Vector3 pos)
