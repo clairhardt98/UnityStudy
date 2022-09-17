@@ -61,6 +61,7 @@
     void PlayerDie()
     {
         OnPlayerDie();
+        GameManager.instance.isGameOver = true;
         // GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
         //
         // for (int i = 0; i < enemies.Length; i++)

@@ -62,6 +62,13 @@ public class FireCtrl : MonoBehaviour
     {
         StartCoroutine(shake.ShakeCamera());
         Instantiate(bullet, firePos.position, firePos.rotation);
+        var _bullet = GameManager.instance.GetBullet();
+        if (_bullet != null)
+        {
+            _bullet.transform.position = firePos.position;
+            _bullet.transform.rotation = firePos.rotation;
+            _bullet.SetActive(true);
+        }
         cartidge.Play();
         muzzleFlash.Play();
         Firesfx();
